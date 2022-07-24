@@ -26,3 +26,18 @@ async def retrieve_employees():
     async for employee in employee_collection.find():
         employees.append(employee_helper(employee))
     return employees
+# for deleting employee entry in collection
+async def delete_employee(id: str):
+    employee = await employee_collection.find_one({"_id": ObjectId(id)})
+    if employee:
+        await employee_collection.delete_one({"_id": ObjectId(id)})
+        return True
+
+
+# for getting employeedetails in sorting way
+async def sort_employee(key: str, order: int):
+    employees = []
+    employee_cursor = employee_collection.find().sort(key, order)
+    async for employee in employee_cursor:
+        employees.append(employee_helper(employee))
+    return employees
