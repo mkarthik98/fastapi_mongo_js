@@ -1,0 +1,10 @@
+import motor.motor_asyncio
+from bson.objectid import ObjectId
+
+MONGO_DETAILS = "mongodb://localhost:27017/mongodb_database?authSource=admin"
+
+client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
+
+database = client.fastapi_mongo_js
+
+employee_collection = database.get_collection("employee_collection")
