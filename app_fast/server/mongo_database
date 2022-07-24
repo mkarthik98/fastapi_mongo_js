@@ -8,3 +8,21 @@ client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
 database = client.fastapi_mongo_js
 
 employee_collection = database.get_collection("employee_collection")
+
+def employee_helper(employee) -> dict:
+    return {
+        "emp_id": str(employee["_id"]),
+        "full_name": employee["full_name"],
+        "email_id": employee["email_id"],
+        "role": employee["role"],
+        "year_of_experience": employee["year_of_experience"],
+        "salary": employee["salary"],
+    }
+
+
+# getting all the documents of employees
+async def retrieve_employees():
+    employees = []
+    async for employee in employee_collection.find():
+        employees.append(employee_helper(employee))
+    return employees
